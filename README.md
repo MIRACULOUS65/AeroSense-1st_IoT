@@ -329,3 +329,5 @@ This project is for educational purposes.
 ---
 
 **Made with ❤️ for environmental monitoring and data analysis**
+
+By Team Quantum Glitch
