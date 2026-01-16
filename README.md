@@ -218,11 +218,11 @@ Running on: **http://localhost:3001** (API) + **ws://localhost:8080** (WebSocket
 
 ## 🛠️ Technology Stack
 
-- **Frontend**: Next.js 15, React, TypeScript, Tailwind CSS
-- **Backend**: Node.js, Express, WebSocket, SerialPort
-- **AI/ML**: Python, PyTorch, Transformers (GPT-2)
-- **IoT**: Arduino, DHT11, MQ135
-- **APIs**: OpenWeather, Open-Meteo, SerpAPI
+- **Frontend**: Next.js 15, React, TypeScript, Tailwind CSS.
+- **Backend**: Node.js, Express, WebSocket, SerialPort.
+- **AI/ML**: Python, PyTorch, Transformers (GPT-2).
+- **IoT**: Arduino, DHT11, MQ135, Breadboard.
+- **APIs**: OpenWeather, Open-Meteo, SerpAPI.
 
 ---
 
@@ -329,3 +329,5 @@ This project is for educational purposes.
 ---
 
 **Made with ❤️ for environmental monitoring and data analysis**
+
+By Team Quantum Glitch
