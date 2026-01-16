@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { spawn } from 'child_process';
-import path from 'path';
 
 export async function POST(request: NextRequest) {
     try {
@@ -14,53 +12,43 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Path to Python script
-        const scriptPath = path.join(process.cwd(), '..', 'aiml', 'weather_predict_api.py');
+        // Make HTTP request to Flask server
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 60000); // 60 second timeout
 
-        // Execute Python script
-        const pythonProcess = spawn('python', [scriptPath, query]);
-
-        let stdout = '';
-        let stderr = '';
-
-        // Collect data from script
-        pythonProcess.stdout.on('data', (data) => {
-            stdout += data.toString();
-        });
-
-        pythonProcess.stderr.on('data', (data) => {
-            stderr += data.toString();
-        });
-
-        // Wait for process to complete
-        const result = await new Promise((resolve, reject) => {
-            const timeout = setTimeout(() => {
-                pythonProcess.kill();
-                reject(new Error('Request timeout after 30 seconds'));
-            }, 30000);
-
-            pythonProcess.on('close', (code) => {
-                clearTimeout(timeout);
-
-                if (code === 0) {
-                    try {
-                        const output = JSON.parse(stdout);
-                        resolve(output);
-                    } catch (e) {
-                        reject(new Error(`Failed to parse Python output: ${stdout}`));
-                    }
-                } else {
-                    reject(new Error(`Python script error: ${stderr || 'Unknown error'}`));
-                }
+        try {
+            const response = await fetch('http://localhost:5001/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ query }),
+                signal: controller.signal,
             });
 
-            pythonProcess.on('error', (error) => {
-                clearTimeout(timeout);
-                reject(new Error(`Failed to start Python process: ${error.message}`));
-            });
-        });
+            clearTimeout(timeout);
 
-        return NextResponse.json(result);
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to get response from AI server');
+            }
+
+            const result = await response.json();
+            return NextResponse.json(result);
+
+        } catch (fetchError: any) {
+            clearTimeout(timeout);
+
+            if (fetchError.name === 'AbortError') {
+                throw new Error('Request timeout after 60 seconds');
+            }
+
+            if (fetchError.code === 'ECONNREFUSED') {
+                throw new Error('AI server is not running. Please start it with: python aiml/weather_server.py');
+            }
+
+            throw fetchError;
+        }
 
     } catch (error: any) {
         console.error('AI Chat API Error:', error);

@@ -1,8 +1,10 @@
 # Weather Prediction CLI - Dependencies
 # Install these packages:
-# pip install torch transformers requests python-dotenv
+# pip install torch transformers requests python-dotenv datasets accelerate sentencepiece flask flask-cors
 
 torch>=2.0.0
 transformers>=4.30.0
 requests>=2.28.0
 python-dotenv>=1.0.0
+flask
+flask-cors
