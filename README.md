@@ -1,6 +1,11 @@
 # AeroSense - Environmental Monitoring System 🌍
 
 A comprehensive environmental data analysis and monitoring system with real-time IoT integration, AI-powered weather predictions, and interactive data visualization.
+## 🎥 Project Demo
+
+[![AeroSense Demo Video](./frontend/public/Screenshot%202026-01-18%20001358.png)](https://drive.google.com/file/d/12t91UTAXBcdVBofLVPkUDuXkzUMp5BOk/view?usp=sharing)
+
+▶️ **[Watch Demo Video on Google Drive](https://drive.google.com/file/d/12t91UTAXBcdVBofLVPkUDuXkzUMp5BOk/view?usp=sharing)**
 
 ## 🌟 Features
 
